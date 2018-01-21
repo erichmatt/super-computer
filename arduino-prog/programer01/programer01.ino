@@ -14,14 +14,10 @@ void setup() {
 
 }
 void loop() {
-  binout(0x91);  //00
-  binout(0xce);   //01
-  binout(0x7a); //02
-  binout(0x38); //03
+  binout(0x7a);
   binout(0x7b);
-  binout(0x11);
   binout(0x30);
-  binout(0x00); 
+  binout(0x00);
   while(1)
   {
 
