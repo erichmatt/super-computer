@@ -1,0 +1,9 @@
+	ORG 00H
+	SEX 8
+	LDI 00H
+	PHI 8
+	LDI 00H
+	PLO 8
+	INC 8
+	OUT 4
+	END
