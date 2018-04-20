@@ -18,17 +18,33 @@ loop	dec 0Fh		;\
 	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
 	bz exitd	;/
 	br loop		;Do the loop again
-
+	seq
 main	sex 4h
-	ldi 2h
+	ldi 0ah
 	plo 05h
-us	out 4h
+	bnq done
+	req
+sort	ldx
+	out 4h
 	sep 0eh
+	sm
+	bnf sort
+	ldx
+	phi 5
+	dec 4
+	ldxa
+	stxd
+	ghi 5
+	str 4
 	dec 5
 	glo 5
-	bnz us
-	
+	seq
+	bnz sort
+	br main
 done	seq
+	sep 0eh
+	req
+	sep 0eh
 	br done
 
 tbs	byte 10h
