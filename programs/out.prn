@@ -1,46 +1,51 @@
                   	org 00H
-   0000   f8 1c         	ldi low main 	;\
+   0000   f8 0d         	ldi low main 	;\
    0002   a3            	plo 3h		; |
    0003   f8 00         	ldi high main	; |Set main program counter to Register 3
    0005   b3            	phi 3h		;/		
-   0006   f8 13         	ldi low delay	;\
-   0008   ae            	plo 0Eh		; |
-   0009   f8 00         	ldi high delay	; |Set Register E as program counter for delay subroutine
-   000b   be            	phi 0Eh		;/
-   000c   f8 29         	ldi low tbs	;\
-   000e   a4            	plo 4h		; |
-   000f   f8 00         	ldi high tbs	; |Set Register 4 as list pointer
-   0011   b4            	phi 4h		;/
-   0012   d3            exitd	sep 3h		;Set Register 3 as program counter to return to main program
-   0013   f8 20         delay	ldi 20h		;\
-   0015   bf            	phi 0Fh		;/Load the high bits of Register F with 20H
-   0016   2f            loop	dec 0Fh		;\
-   0017   9f            	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
-   0018   32 12         	bz exitd	;/
-   001a   30 16         	br loop		;Do the loop again
-                        
-   001c   e4            main	sex 4h
-   001d   f8 02         	ldi 2h
-   001f   a5            	plo 05h
-   0020   64            us	out 4h
-   0021   de            	sep 0eh
-   0022   25            	dec 5
-   0023   85            	glo 5
-   0024   3a 20         	bnz us
                         	
-   0026   7b            done	seq
-   0027   30 26         	br done
+   0006   f8 2d         	ldi low tbs	;\
+   0008   a4            	plo 4h		; |
+   0009   f8 00         	ldi high tbs	; |Set Register 4 as list pointer
+   000b   b4            	phi 4h		;/
+   000c   d3            	sep 3h		;Set Register 3 as program counter to return to main program
                         
-   0029   10            tbs	byte 10h
-   002a   23            	byte 23h
-   002b   30            	byte 30h
-   002c   02            	byte 2h
-   002d   03            	byte 3h
-   002e   90            	byte 90h
-   002f   20            	byte 20h
-   0030   57            	byte 57h
-   0031   12            	byte 12h
+   000d   e4            main	sex 4h
+   000e   f8 0a         	ldi 0ah
+   0010   a5            	plo 05h
+   0011   39 27         	bnq done
+   0013   7a            	req
+   0014   f0            sort	ldx
+   0015   64            	out 4h
+   0016   f7            	sm
+   0017   3b 14         	bnf sort
+   0019   f0            	ldx
+   001a   b5            	phi 5
+   001b   24            	dec 4
+   001c   72            	ldxa
+   001d   73            	stxd
+   001e   95            	ghi 5
+   001f   54            	str 4
+   0020   25            	dec 5
+   0021   85            	glo 5
+   0022   7b            	seq
+   0023   3a 14         	bnz sort
+   0025   30 0d         	br main
+   0027   7b            done	seq
+   0028   de            	sep 0eh
+   0029   7a            	req
+   002a   de            	sep 0eh
+   002b   30 27         	br done
+                        
+   002d   10            tbs	byte 10h
+   002e   23            	byte 23h
+   002f   30            	byte 30h
+   0030   02            	byte 2h
+   0031   03            	byte 3h
+   0032   90            	byte 90h
+   0033   20            	byte 20h
+   0034   57            	byte 57h
+   0035   12            	byte 12h
                   	end
-0013  delay         0026  done          0012  exitd         0016  loop      
-001c  main          0029  tbs           0020  us            
+0027  done          000d  main          0014  sort          002d  tbs       
 

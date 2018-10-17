@@ -1,0 +1,13 @@
+Palm is a shortcut to start elf.exe with palmtic.rom loaded
+
+It is set to have the winelf folder on the D: drive, change this to sute your needs.
+
+after start up
+
+flip run switch to ON.
+
+You will See 14 in display, hit enter on keyboard.
+
+note:
+To use the keyboard screen focus has to be on the elf,
+Not the Pixie display.
