@@ -3,14 +3,12 @@
 	plo 3h		; |
 	ldi high main	; |Set main program counter to Register 3
 	phi 3h		;/		
-	ldi low delay	;\
-	plo 0Eh		; |
-	ldi high delay	; |Set Register E as program counter for delay subroutine
-	phi 0Eh		;/
+	
 	ldi low tbs	;\
 	plo 4h		; |
 	ldi high tbs	; |Set Register 4 as list pointer
 	phi 4h		;/
+<<<<<<< HEAD
 exitd	sep 3h		;Set Register 3 as program counter to return to main program
 delay	ldi 2h		;\
 	phi 0Fh		;/Load the high bits of Register F with 20H
@@ -19,14 +17,21 @@ loop	dec 0Fh		;\
 	bz exitd	;/
 	br loop		;Do the loop again
 	seq
+=======
+	sep 3h		;Set Register 3 as program counter to return to main program
+
+>>>>>>> 6b42010248a55f6bd4dc20eea98047c4e247f54b
 main	sex 4h
 	ldi 0ah
 	plo 05h
 	bnq done
 sort	ldx
 	out 4h
+<<<<<<< HEAD
 	req
 	sep 0eh
+=======
+>>>>>>> 6b42010248a55f6bd4dc20eea98047c4e247f54b
 	sm
 	bnf sort
 	ldx
