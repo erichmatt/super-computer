@@ -12,7 +12,7 @@
 	ldi high tbs	; |Set Register 4 as list pointer
 	phi 4h		;/
 exitd	sep 3h		;Set Register 3 as program counter to return to main program
-delay	ldi 20h		;\
+delay	ldi 2h		;\
 	phi 0Fh		;/Load the high bits of Register F with 20H
 loop	dec 0Fh		;\
 	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
@@ -23,9 +23,9 @@ main	sex 4h
 	ldi 0ah
 	plo 05h
 	bnq done
-	req
 sort	ldx
 	out 4h
+	req
 	sep 0eh
 	sm
 	bnf sort
@@ -41,10 +41,17 @@ sort	ldx
 	seq
 	bnz sort
 	br main
-done	seq
+done	ldi high tbs
+	phi 4h
+	ldi low tbs
+	plo 4h
+	ldi 4
+	plo 5
+list	out 4
+	dec 5
 	sep 0eh
-	req
-	sep 0eh
+	ldn 5
+	bnz list
 	br done
 
 tbs	byte 10h

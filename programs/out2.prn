@@ -12,7 +12,7 @@
    000f   f8 00         	ldi high tbs	; |Set Register 4 as list pointer
    0011   b4            	phi 4h		;/
    0012   d3            exitd	sep 3h		;Set Register 3 as program counter to return to main program
-   0013   f8 20         delay	ldi 20h		;\
+   0013   f8 02         delay	ldi 2h		;\
    0015   bf            	phi 0Fh		;/Load the high bits of Register F with 20H
    0016   2f            loop	dec 0Fh		;\
    0017   9f            	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
