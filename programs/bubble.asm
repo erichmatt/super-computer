@@ -10,12 +10,8 @@
 	ldi high delay	; |Set Register E as program counter for delay subroutine
 	phi 0Eh		;/
 
-	ldi low tbs	;\
-	plo 4h		; |
-	ldi high tbs	; |Set Register 4 as list pointer
-	phi 4h		;/
-
 	seq		;Set Q to show the list needs to be sorted
+
 
 exitd	sep 3h		;Set Register 3 as program counter to return to main program
 delay	ldi 20h		;\
@@ -25,9 +21,13 @@ loop	dec 0Fh		;\
 	bz exitd	;/
 	br loop		;Do the loop again
 
-main	ldi 0ah		;\
-	plo 05h		;/Set the number of items in the list
+main	ldi low tbs	;\
+	plo 4h		; |
+	ldi high tbs	; |Set Register 4 as list pointer
+	phi 4h		;/
 
+    	ldi 0ah		;\
+	plo 05h		;/Set the number of items in the list
 	bnq done	; If q is not set no swaps were made and we are done
 	req		; Reset Q 
     	nop
