@@ -1,69 +1,76 @@
-                  	org 00H
-   0000   f8 1d         	ldi low main 	;\
-   0002   a3            	plo 3h		; |
-   0003   f8 00         	ldi high main	; |Set main program counter to Register 3
-   0005   b3            	phi 3h		;/		
-   0006   f8 13         	ldi low delay	;\
-   0008   ae            	plo 0Eh		; |
-   0009   f8 00         	ldi high delay	; |Set Register E as program counter for delay subroutine
-   000b   be            	phi 0Eh		;/
-   000c   f8 49         	ldi low tbs	;\
-   000e   a4            	plo 4h		; |
-   000f   f8 00         	ldi high tbs	; |Set Register 4 as list pointer
-   0011   b4            	phi 4h		;/
-   0012   d3            exitd	sep 3h		;Set Register 3 as program counter to return to main program
-   0013   f8 02         delay	ldi 2h		;\
-   0015   bf            	phi 0Fh		;/Load the high bits of Register F with 20H
-   0016   2f            loop	dec 0Fh		;\
-   0017   9f            	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
-   0018   32 12         	bz exitd	;/
-   001a   30 16         	br loop		;Do the loop again
-   001c   7b            	seq
-   001d   e4            main	sex 4h
-   001e   f8 0a         	ldi 0ah
-   0020   a5            	plo 05h
-   0021   39 38         	bnq done
-   0023   f0            sort	ldx
-   0024   64            	out 4h
-   0025   7a            	req
-   0026   de            	sep 0eh
-   0027   f7            	sm
-   0028   3b 23         	bnf sort
-   002a   f0            	ldx
-   002b   b5            	phi 5
-   002c   24            	dec 4
-   002d   72            	ldxa
-   002e   73            	stxd
-   002f   95            	ghi 5
-   0030   54            	str 4
-   0031   25            	dec 5
-   0032   85            	glo 5
-   0033   7b            	seq
-   0034   3a 23         	bnz sort
-   0036   30 1d         	br main
-   0038   f8 00         done	ldi high tbs
-   003a   b4            	phi 4h
-   003b   f8 49         	ldi low tbs
-   003d   a4            	plo 4h
-   003e   f8 04         	ldi 4
-   0040   a5            	plo 5
-   0041   64            list	out 4
-   0042   25            	dec 5
-   0043   de            	sep 0eh
-   0044   05            	ldn 5
-   0045   3a 41         	bnz list
-   0047   30 38         	br done
+                      	org 00H
+   0000   e4            	sex 4H
+   0001   f8 18         	ldi low main 	;\
+   0003   a3            	plo 3h		; |
+   0004   f8 00         	ldi high main	; |Set main program counter to Register 3
+   0006   b3            	phi 3h		;/		
                         
-   0049   10            tbs	byte 10h
-   004a   23            	byte 23h
-   004b   30            	byte 30h
-   004c   02            	byte 2h
-   004d   03            	byte 3h
-   004e   90            	byte 90h
-   004f   20            	byte 20h
-   0050   57            	byte 57h
-   0051   12            	byte 12h
+   0007   f8 0f         	ldi low delay	;\
+   0009   ae            	plo 0Eh		; |
+   000a   f8 00         	ldi high delay	; |Set Register E as program counter for delay subroutine
+   000c   be            	phi 0Eh		;/
+                        
+   000d   7b            	seq		;Set Q to show the list needs to be sorted
+                        
+                        
+   000e   d3            exitd	sep 3h		;Set Register 3 as program counter to return to main program
+   000f   f8 01         delay	ldi 01h		;\
+   0011   bf            	phi 0Fh		;/Load the high bits of Register F with 01H
+   0012   2f            loop	dec 0Fh		;\
+   0013   9f            	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
+   0014   32 0e         	bz exitd	;/
+   0016   30 12         	br loop		;Do the loop again
+                        
+   0018   f8 44         main	ldi low tbs	;\
+   001a   a4            	plo 4h		; |
+   001b   f8 00         	ldi high tbs	; |Set Register 4 as list pointer
+   001d   b4            	phi 4h		;/
+                        
+   001e   f8 0a             	ldi 0ah		;\
+   0020   a5            	plo 05h		;/Set the number of items in the list
+   0021   39 3e         	bnq done	; If q is not set no swaps were made and we are done
+   0023   7a            	req		; Reset Q 
+   0024   c4                	nop
+   0025   c4                	nop
+   0026   25            sort	dec 05h
+   0027   85            	glo 05h
+   0028   32 18         	bz main
+   002a   64            	out 4h		; Display memory at address X
+   002b   de            	sep 0Eh		; Go to Delay
+   002c   f0            	ldx
+   002d   60            	irx		;\Increment register X
+   002e   f7            	sm		;/and check to see if the next item in the list is bigger
+   002f   3b 26         	bnf sort
+                        
+   0031   7b            	seq		;Set Q to show a swap was needed
+                        
+   0032   f0            	ldx		;\
+   0033   b5            	phi 5		;/Store 2nd item in the high byte of reg 5
+   0034   24            	dec 4		;Point X to 1st location
+   0035   72            	ldxa		;Load D with 1st item and point to 2nd location
+   0036   73            	stxd		;Store 1st in 2nd location and point to 1st location
+   0037   95            	ghi 5		;Get 2nd item from high byte of reg 5
+   0038   54            	str 4		;Store 2nd item in first location
+   0039   60               	irx		;point X to second location
+   003a   c4                	nop
+   003b   c4                	nop
+   003c   30 26         	br sort		;Go through sort loop again
+   003e   7b            done	seq		;\
+   003f   de            	sep 0eh		; |
+   0040   7a            	req		; |Flash Q to show list is sorted.
+   0041   de            	sep 0eh		; |
+   0042   30 3e         	br done		;/
+                        
+   0044   10            tbs	byte 10h
+   0045   23            	byte 23h
+   0046   30            	byte 30h
+   0047   02            	byte 2h
+   0048   03            	byte 3h
+   0049   90            	byte 90h
+   004a   20            	byte 20h
+   004b   57            	byte 57h
+   004c   12            	byte 12h
                   	end
-0013  delay         0038  done          0012  exitd         0041  list      
-0016  loop          001d  main          0023  sort          0049  tbs       
+000f  delay         003e  done          000e  exitd         0012  loop      
+0018  main          0026  sort          0044  tbs           
 
