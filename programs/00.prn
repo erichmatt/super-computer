@@ -1,0 +1,7 @@
+                  start	org 00h
+   0000   7b            	seq
+   0001   7a            	req
+   0002   30 00         	br start
+                  	end
+0000  start         
+
