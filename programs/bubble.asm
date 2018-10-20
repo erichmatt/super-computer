@@ -14,8 +14,8 @@
 
 
 exitd	sep 3h		;Set Register 3 as program counter to return to main program
-delay	ldi 20h		;\
-	phi 0Fh		;/Load the high bits of Register F with 20H
+delay	ldi 01h		;\
+	phi 0Fh		;/Load the high bits of Register F with 01H
 loop	dec 0Fh		;\
 	ghi 0Fh		; |Decriment and check if high bits are 0 if they are exit
 	bz exitd	;/
