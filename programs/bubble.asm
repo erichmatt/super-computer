@@ -35,10 +35,10 @@ main	ldi low tbs	;\
 sort	dec 05h
 	glo 05h
 	bz main
+	ldx
 	out 4h		; Display memory at address X
 	sep 0Eh		; Go to Delay
-	ldx
-	irx		;\Increment register X
+	nop		;\Increment register X (not needed because display incrments)
 	sm		;/and check to see if the next item in the list is bigger
 	bnf sort
 
@@ -51,7 +51,7 @@ sort	dec 05h
 	stxd		;Store 1st in 2nd location and point to 1st location
 	ghi 5		;Get 2nd item from high byte of reg 5
 	str 4		;Store 2nd item in first location
-   	irx		;point X to second location
+   	nop		;point X to second location
     	nop
     	nop
 	br sort		;Go through sort loop again
