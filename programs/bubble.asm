@@ -12,7 +12,6 @@
 
 	seq		;Set Q to show the list needs to be sorted
 
-
 exitd	sep 3h		;Set Register 3 as program counter to return to main program
 delay	ldi 01h		;\
 	phi 0Fh		;/Load the high bits of Register F with 01H
@@ -31,28 +30,29 @@ main	ldi low tbs	;\
 	bnq done	; If q is not set no swaps were made and we are done
 	req		; Reset Q 
     	nop
-    	nop
 sort	dec 05h
 	glo 05h
 	bz main
+	sep 0eh
 	ldx
 	out 4h		; Display memory at address X
-	sep 0Eh		; Go to Delay
-	nop		;\Increment register X (not needed because display incrments)
-	sm		;/and check to see if the next item in the list is bigger
-	bnf sort
-
+	
+	sm		;\Increment register X (not needed because display incrments)
+	bge sort		;/and check to see if the next item in the list is bigger
+	nop
+	nop
 	seq		;Set Q to show a swap was needed
 
 	ldx		;\
 	phi 5		;/Store 2nd item in the high byte of reg 5
 	dec 4		;Point X to 1st location
-	ldxa		;Load D with 1st item and point to 2nd location
-	stxd		;Store 1st in 2nd location and point to 1st location
+	ldx		;Load D with 1st item and point to 2nd location
+	irx
+	str 4		;Store 1st in 2nd location and point to 1st location
+	dec 4
 	ghi 5		;Get 2nd item from high byte of reg 5
 	str 4		;Store 2nd item in first location
-   	nop		;point X to second location
-    	nop
+  			;point X to second location
     	nop
 	br sort		;Go through sort loop again
 done	seq		;\
@@ -62,10 +62,11 @@ done	seq		;\
 	br done		;/
 
 tbs	byte 10h
-	byte 23h
-	byte 30h
-	byte 2h
-	byte 3h
+	byte 10h
+	byte 10h
+	byte 02h
+	byte 02h
+	byte 0fh
 	byte 90h
 	byte 20h
 	byte 57h
