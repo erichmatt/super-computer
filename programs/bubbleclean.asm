@@ -32,9 +32,7 @@ main	ldi low tbs	;\
 sort	dec 05h
 	glo 05h
 	bz main
-	sep 0eh
-	ldx
-	out 4h		; Display memory at address X
+	ldxa
 	sm		;\Increment register X (not needed because display incrments)
 	bge sort		;/and check to see if the next item in the list is bigger
 	seq		;Set Q to show a swap was needed
